@@ -30,6 +30,8 @@ const constructHead = (content: string): ConstructHeadResult => {
   };
 };
 
+//TODO: Add tests
+
 export const parseHead = (
   stream: Readable,
   cb: () => void
