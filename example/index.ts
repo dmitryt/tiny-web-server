@@ -22,7 +22,7 @@ app.get('/items/:id', (req: Request, res: Response) => {
   if (item) {
     res.json({ data: item });
   } else {
-    res.json({ data: item });
+    res.status(404).send('Not Found');
   }
 });
 
@@ -33,7 +33,7 @@ app.post('/items', (req: Request, res: Response) => {
 });
 
 app.put('/items/:id', (req: Request, res: Response) => {
-  let data = {};
+  let data = null;
   items = items.map((item) => {
     if (item.id !== req.params.id) {
       return item;
@@ -41,7 +41,11 @@ app.put('/items/:id', (req: Request, res: Response) => {
     data = {...item, ...req.body};
     return data as any;
   });
-  res.json({ data });
+  if (data) {
+    res.json({ data });
+  } else {
+    res.status(404).send('Not Found');
+  }
 });
 
 app.delete('/items/:id', (req: Request, res: Response) => {

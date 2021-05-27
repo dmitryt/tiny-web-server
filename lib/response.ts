@@ -41,6 +41,10 @@ export default class Response {
     return this;
   }
 
+  send(msg: string) {
+    this.write(msg).end()
+  }
+
   json(msg: Record<string, unknown>) {
     this.set({'Content-Type': 'application/json'})
       .write(JSON.stringify(msg))
