@@ -1,7 +1,8 @@
 import { AddressInfo, createServer, Server as NetServer, Socket } from "net";
-import { HttpMethod, parseHead } from "./util";
+import { parseBody, parseHead } from "./util";
 import Request from "./request";
 import Router from "./router";
+import Response from "./response";
 
 export default class Server {
   private instance: NetServer;
@@ -16,10 +17,13 @@ export default class Server {
           socket.removeListener('error', onError);
           socket.removeListener('readable', onReadable);
         });
-        //TODO: add Router
-        //TODO: add Response
-        const req = new Request({ headers, url, method });
-        console.log(`REQUEST: ${req.method} ${req.url} ${JSON.stringify(req.headers)}`);
+        const body = await parseBody(socket);
+
+        const req = new Request({ headers, url, method, body });
+        const res = new Response(socket);
+        const {params, handler} = this.router.findHandler(method, url);
+        req.params = params;
+        (handler || this.router.notFoundHandler)(req, res);
       };
       socket.on("error", onError);
       socket.on("readable", onReadable);
@@ -30,12 +34,20 @@ export default class Server {
     });
   }
 
-  get(route: string, handler: (req: Request) => void) {
+  get(route: string, handler: (req: Request, res: Response) => void) {
     this.router.addRoute('GET', route, handler);
   }
 
-  post(route: string, handler: (req: Request) => void) {
+  post(route: string, handler: (req: Request, res: Response) => void) {
     this.router.addRoute('POST', route, handler);
+  }
+
+  put(route: string, handler: (req: Request, res: Response) => void) {
+    this.router.addRoute('PUT', route, handler);
+  }
+
+  delete(route: string, handler: (req: Request, res: Response) => void) {
+    this.router.addRoute('DELETE', route, handler);
   }
 
   address(): string | AddressInfo | null {
