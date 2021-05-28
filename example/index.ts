@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 import Request from '../lib/request';
 import Response from '../lib/response';
@@ -27,7 +27,7 @@ app.get('/items/:id', (req: Request, res: Response) => {
 });
 
 app.post('/items', (req: Request, res: Response) => {
-  const item = {...req.body, id: uuid() };
+  const item = {...req.body, id: uuidv4() };
   items.push(item);
   res.json({ data: item });
 });
@@ -53,7 +53,7 @@ app.delete('/items/:id', (req: Request, res: Response) => {
   res.json({ ok: true });
 });
 
-app.listen(8081, () => {
+app.listen(8080, () => {
   console.log('opened on', app.address());
 });
 

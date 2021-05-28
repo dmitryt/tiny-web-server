@@ -1,5 +1,5 @@
 import {Socket} from "net";
-import { HttpHeaders, BODY_DELIMITER, NL_CHAR } from "./util";
+import { HttpHeaders, NL_CHAR } from "./util";
 import HttpCodes from './httpCodes';
 
 export default class Response {

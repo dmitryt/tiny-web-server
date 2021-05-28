@@ -16,7 +16,7 @@ type ConstructHeadResult = {
 export const NL_CHAR = '\r\n';
 export const BODY_DELIMITER = NL_CHAR + NL_CHAR;
 
-const constructHead = (content: string): ConstructHeadResult => {
+export const constructHead = (content: string): ConstructHeadResult => {
   const [metaPart, ...rest] = content.split(NL_CHAR);
   const [method, url, protocol] = metaPart.split(" ");
   const headers = rest.reduce((acc, line) => {

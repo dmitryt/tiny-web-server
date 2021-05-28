@@ -39,6 +39,7 @@ export default class Router {
 
   findHandler(method: HttpMethod, route: string): FindHandlerResults {
     const result: FindHandlerResults = {
+      handler: undefined,
       params: {},
     };
     const routeArr = route.split('/').slice(1);
