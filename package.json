@@ -8,6 +8,7 @@
   },
   "scripts": {
     "example": "nodemon -e ts -x ts-node --pretty example/index.ts",
+    "tsc": "tsc",
     "lint": "eslint --ext ts .",
     "test": "jest"
   },
